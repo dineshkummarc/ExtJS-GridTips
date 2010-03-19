@@ -1,0 +1,91 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>RowTips - CellTips</title>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.0.0/resources/css/ext-all.css"/>
+   
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.0.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.0.0/ext-all.js"></script>
+
+
+    <script type="text/javascript" src="RowTips.js"></script>
+    <script type="text/javascript" src="CellTips.js"></script>
+    <script type="text/javascript">
+        var fields = [
+            'name',
+            'species',{
+                name:'age',
+                type:'int'
+            }
+        ];
+        //nos données
+        var data = [
+            ['Luke', 'Humain', 19],
+            ['Ackbar', 'Calamarien', 44],
+            ['Yoda', 'Inconnu', 896]
+        ];
+        Ext.onReady(function(){
+            var grid1 = new Ext.grid.GridPanel({
+                width : 400,
+                height: 200,
+                renderTo:Ext.getBody(),
+                title:'RowTips',
+                store : new Ext.data.ArrayStore({
+                    autoLoad:true,
+                    fields:fields,
+                    data:data
+                }),
+                autoExpandColumn:'name',
+                columns : [{
+                    header:'Nom',
+                    dataIndex:'name',
+                    id:'name'
+                },{
+                    header:'Espèce',
+                    dataIndex:'species'
+                },{
+                    header:'Âge',
+                    dataIndex:'age'
+                }],
+                plugins:[
+                    new Ext.ux.grid.RowTips('name')
+                ]
+            });
+            
+            var grid2 = new Ext.grid.GridPanel({
+                width : 400,
+                height: 200,
+                renderTo:Ext.getBody(),
+                title:'CellTips',
+                store : new Ext.data.ArrayStore({
+                    autoLoad:true,
+                    fields:fields,
+                    data:data
+                }),
+                autoExpandColumn:'name',
+                columns : [{
+                    header:'Nom',
+                    dataIndex:'name',
+                    id:'name'
+                },{
+                    header:'Espèce',
+                    dataIndex:'species'
+                },{
+                    header:'Âge',
+                    dataIndex:'age'
+                }],
+                plugins:[
+                    new Ext.ux.grid.CellTips(function(grid, record, fieldName){
+                        return 'Cell value : '+record.get(fieldName);
+                    })
+                ]
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <h1>Simple examples</h1>
+</body>
+</html>

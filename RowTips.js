@@ -6,13 +6,9 @@ Ext.ux.grid.RowTips = function(tipCfg){
         this.tipUpdater = tipCfg;
     }else if(typeof tipCfg == 'string'){
         //if string, get the field value
-        this.tipUpdater = function(tip, grid, record){
+        this.tipRenderer= function(grid, record){
             var text = record.get(tipCfg);
-            if(text !== ''){
-                tip.body.update(text);
-            }else{
-                return false;
-            }
+            return text; //return '' -> no tooltip
         };
     }
 };
@@ -31,9 +27,15 @@ Ext.ux.grid.RowTips.prototype = {
             listeners: {
                 beforeshow: function(tip) {
                     //rowIndex
-                    var rowIndex = tip.triggerElement.rowIndex;
-                    var record = this.grid.store.getAt(rowIndex);
-                    return this.tipUpdater(tip, this.grid, record);//return false to hide tooltip
+                    var rowIndex = tip.triggerElement.rowIndex,
+                        record = this.grid.store.getAt(rowIndex),
+                        update = this.tipRenderer(this.grid, record);//return '' to hide tooltip
+                    
+                    if(update !== ''){
+                        tip.body.update(update);
+                    }else{
+                        return false;
+                    }
                 },
                 scope:this
             }
