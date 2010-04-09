@@ -1,9 +1,9 @@
 Ext.ns('Ext.ux.grid');
 
 Ext.ux.grid.RowTips = function(tipCfg){
-    //if function, set it as updater
+    //if function, set it as renderer
     if(typeof tipCfg == 'function'){
-        this.tipUpdater = tipCfg;
+        this.tipRenderer = tipCfg;
     }else if(typeof tipCfg == 'string'){
         //if string, get the field value
         this.tipRenderer= function(grid, record){
